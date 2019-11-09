@@ -6,9 +6,24 @@ var QuestionSchema = new mongoose.Schema({
     content: String,
     answers: [
         {
-            content: String
+            content: String,
+            user: String,
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
         }
-    ]
+    ],
+    tags: [
+        {
+            text: String
+        }
+    ],
+    user: String,
+    votes: {
+        type: Number,
+        default: 0
+    }
 });
 
 registerEvents(QuestionSchema);

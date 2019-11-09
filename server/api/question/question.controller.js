@@ -126,3 +126,51 @@ export function createAnswer(req, res) {
         exports.show(req, res);
     });
 }
+
+/* star/unstar question */
+export function upvote(req, res) {
+    Question.update({ _id: req.params.id }, { $inc: { votes: 1 } }, function(err, num) {
+        if(err) {
+            return handleError(res)(err);
+        }
+        if(num === 0) {
+            return res.send(404).end();
+        }
+        exports.show(req, res);
+    });
+}
+export function downvote(req, res) {
+    Question.update({ _id: req.params.id }, { $inc: { votes: -1 } }, function(err, num) {
+        if(err) {
+            return handleError(res, err);
+        }
+        if(num === 0) {
+            return res.send(404).end();
+        }
+        exports.show(req, res);
+    });
+}
+
+/* star/unstar answer */
+export function upvoteAnswer(req, res) {
+    Question.update({ _id: req.params.id, 'answers._id': req.params.answerId }, { $inc: { 'answers.$.votes': 1 } }, function(err, num) {
+        if(err) {
+            return handleError(res)(err);
+        }
+        if(num === 0) {
+            return res.send(404).end();
+        }
+        exports.show(req, res);
+    });
+}
+export function downvoteAnswer(req, res) {
+    Question.update({ _id: req.params.id, 'answers._id': req.params.answerId }, { $inc: { 'answers.$.votes': -1 } }, function(err, num) {
+        if(err) {
+            return handleError(res)(err);
+        }
+        if(num === 0) {
+            return res.send(404).end();
+        }
+        exports.show(req, res);
+    });
+}
