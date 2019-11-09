@@ -19,6 +19,7 @@ var QuestionSchema = new mongoose.Schema({
             text: String
         }
     ],
+    course: String,
     user: String,
     votes: {
         type: Number,
