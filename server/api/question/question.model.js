@@ -10,6 +10,7 @@ var QuestionSchema = new mongoose.Schema({
             user: String,
             createdAt: {
                 type: Date,
+                required: true,
                 default: Date.now
             }
         }
@@ -27,6 +28,7 @@ var QuestionSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
+        required: true,
         default: Date.now
     }
 });

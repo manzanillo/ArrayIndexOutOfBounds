@@ -12,7 +12,7 @@
     </span>
     <br />
     <span class="meta">
-      <span class="time">{{ question.createdAt | timeAgo }} ago</span>
+      <span class="time">vor {{ question.createdAt | timeAgo }}</span>
       <span v-if="question.type !== 'job'" class="comments-link">
         |
         {{ question.answers.length }} comments
