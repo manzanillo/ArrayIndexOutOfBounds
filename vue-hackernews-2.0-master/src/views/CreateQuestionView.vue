@@ -102,5 +102,9 @@ export default {
     width: 100%;
     font-size: 1.3em;
   }
+
+  .a.fa.fa-columns.no-disable.no-mobile, a.fa.fa-arrows-alt.no-disable.no-mobile {
+    display: none;
+  }
 }
 </style>
