@@ -97,5 +97,10 @@ export default {
   .links a {
     text-decoration: underline;
   }
+
+  .form-control {
+    width: 100%;
+    font-size: 1.3em;
+  }
 }
 </style>
