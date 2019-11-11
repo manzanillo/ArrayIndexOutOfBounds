@@ -5,7 +5,7 @@
       <input type="text" class="form-control" v-model="title" />
       <br />
       <h2>Frage:</h2>
-      <simplemde v-model="content" />
+      <simplemde :highlight="true" v-model="content" />
       <br />
       <input type="submit" class="btn btn-primary" value="Frage stellen" />
     </form>
@@ -59,6 +59,7 @@ export default {
 
 <style lang="stylus">
 @import '~simplemde/dist/simplemde.min.css';
+@import '~highlight.js/styles/atom-one-dark.css';
 
 .create-question-view {
   background-color: #fff;

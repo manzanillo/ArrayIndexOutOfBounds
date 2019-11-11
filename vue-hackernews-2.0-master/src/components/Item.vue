@@ -3,11 +3,8 @@
     <span class="score">{{ question.votes }}</span>
     <span class="title">
       <template v-if="question.title">
-        <a :href="'question/' + question._id">{{ question.title }}</a>
+        <router-link :to="'/question/' + question._id">{{ question.title }}</router-link>
         <span class="host">({{ question.user }})</span>
-      </template>
-      <template v-else>
-        <router-link :to="'/item/' + question._id">{{ question.title }}</router-link>
       </template>
     </span>
     <br />

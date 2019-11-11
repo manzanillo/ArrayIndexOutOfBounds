@@ -24,7 +24,7 @@ export default {
     highlight: {
       type: Boolean,
       default() {
-        return false;
+        return true;
       }
     },
     sanitize: {

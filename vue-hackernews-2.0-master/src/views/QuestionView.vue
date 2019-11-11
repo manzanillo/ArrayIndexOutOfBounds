@@ -1,9 +1,8 @@
 <template>
   <div class="question-view">
-    {{ $route.params.id }}
-    <div v-if="question && question.title">
-      <h2>{{question.title}}</h2>
-    </div>
+    <h2>{{question.title}}</h2>
+
+    <div>{{question.content}}</div>
   </div>
 </template>
 
@@ -18,27 +17,20 @@ export default {
   // },
   data: function() {
     return {
-      question: {
-        title: "hi"
-      }
+      question: {}
     };
   },
   mounted() {
     axios
-      .get("http://localhost:9000/api/questions/5dc921f16877f7b18abe7d5f")
-      .then(question => {
-        this.question = question;
+      .get("http://localhost:9000/api/questions/" + this.$route.params.id)
+      .then(res => {
+        this.question = res.data;
       })
       .catch(e => {
         console.log(e);
         return false;
       });
-  },
-  asyncData({
-    route: {
-      params: { id }
-    }
-  }) {}
+  }
 };
 </script>
 
