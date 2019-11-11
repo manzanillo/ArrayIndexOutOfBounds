@@ -1,45 +1,77 @@
 <template>
   <li class="news-item">
-    <span class="score">{{ item.votes }}</span>
+    <span class="score">{{ question.votes }}</span>
     <span class="title">
-      <template v-if="item.title">
-        <a :href="'question/' + item._id" target="_blank" rel="noopener">{{ item.title }}</a>
-        <span class="host">({{ item.user }})</span>
+      <template v-if="question.title">
+        <a :href="'question/' + question._id">{{ question.title }}</a>
+        <span class="host">({{ question.user }})</span>
       </template>
       <template v-else>
-        <router-link :to="'/item/' + item.id">{{ item.title }}</router-link>
+        <router-link :to="'/item/' + question._id">{{ question.title }}</router-link>
       </template>
     </span>
     <br />
     <span class="meta">
-      <span class="time">{{ item.createdAt | timeAgo }} ago</span>
-      <span v-if="item.type !== 'job'" class="comments-link">
+      <span class="time">{{ question.createdAt | timeAgo }} ago</span>
+      <span v-if="question.type !== 'job'" class="comments-link">
         |
-        {{ item.answers.length }} comments
+        {{ question.answers.length }} comments
       </span>
     </span>
-    <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span>
+    <span class="label" v-if="question.type !== 'story'">{{ question.type }}</span>
     <span class="star">
-      <i class="material-icons">star_border</i>
-      <!--<i class="material-icons">star</i>-->
+      <button class="vote-btn" @click="upvote">
+        <i class="material-icons">thumb_up_alt</i>
+      </button>
+      <button class="vote-btn" @click="downvote">
+        <i class="material-icons">thumb_down_alt</i>
+      </button>
     </span>
   </li>
 </template>
 
 <script>
 import { timeAgo } from "../util/filters";
+import axios from "axios";
 
 export default {
   name: "news-item",
   props: ["item"],
+  data: function() {
+    return {
+      question: this.item
+    };
+  },
   // http://ssr.vuejs.org/en/caching.html#component-level-caching
   serverCacheKey: ({ item: { id, __lastUpdated, time } }) => {
     return `${id}::${__lastUpdated}::${timeAgo(time)}`;
+  },
+  methods: {
+    upvote: function(e) {
+      axios
+        .put("http://localhost:9000/api/questions/" + this.item._id + "/upvote")
+        .then(res => (this.question = res.data));
+    },
+    downvote: function(e) {
+      axios
+        .delete(
+          "http://localhost:9000/api/questions/" + this.item._id + "/downvote"
+        )
+        .then(res => (this.question = res.data));
+    }
   }
 };
 </script>
 
 <style lang="stylus">
+.vote-btn {
+  all: unset;
+}
+
+.vote-btn:hover {
+  cursor: pointer;
+}
+
 .news-item {
   background-color: #fff;
   padding: 20px 70px 20px 80px;
