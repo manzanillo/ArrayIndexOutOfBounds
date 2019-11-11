@@ -5,7 +5,7 @@
       <input type="text" class="form-control" v-model="title" />
       <br />
       <h2>Frage:</h2>
-      <textarea rows="10" cols="80" v-model="content"></textarea>
+      <simplemde v-model="content" />
       <br />
       <input type="submit" class="btn btn-primary" value="Frage stellen" />
     </form>
@@ -14,9 +14,13 @@
 
 <script>
 import axios from "axios";
+import simplemde from "../components/MarkdownEditor.vue";
+
 export default {
   name: "user-view",
-
+  components: {
+    simplemde
+  },
   computed: {
     user() {
       return this.$store.state.users[this.$route.params.id];
@@ -63,6 +67,8 @@ export default {
 </script>
 
 <style lang="stylus">
+@import '~simplemde/dist/simplemde.min.css';
+
 .create-question-view {
   background-color: #fff;
   box-sizing: border-box;
