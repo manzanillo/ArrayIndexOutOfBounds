@@ -5,12 +5,12 @@
         <router-link to="/" exact>
           <img class="logo" src="~public/logo-48.png" alt="logo" />
         </router-link>
-        <router-link to="/top">Stars</router-link>
+        <router-link to="/top">Hot</router-link>
         <router-link to="/new">New</router-link>
-        <router-link to="/job">Impressum</router-link>
+        <router-link to="/impressum">Impressum</router-link>
         <a
           class="github"
-          href="https://github.com/vuejs/vue-hackernews-2.0"
+          href="https://github.com/manzanillo/"
           target="_blank"
           rel="noopener"
         >Built with Vue.js</a>

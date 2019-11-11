@@ -53,15 +53,6 @@ export default {
 
       this.$router.push("/");
     }
-  },
-
-  asyncData({
-    store,
-    route: {
-      params: { id }
-    }
-  }) {
-    return store.dispatch("FETCH_USER", { id });
   }
 };
 </script>

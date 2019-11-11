@@ -24,6 +24,10 @@ var QuestionSchema = new mongoose.Schema({
     votes: {
         type: Number,
         default: 0
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 
