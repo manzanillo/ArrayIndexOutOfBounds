@@ -55,7 +55,19 @@ export default {
         {
           element: this.$el.firstElementChild,
           initialValue: this.value,
-          renderingConfig: {}
+          renderingConfig: {},
+          toolbar: [
+            "bold",
+            "italic",
+            "heading",
+            "|",
+            "quote",
+            "code",
+            "image",
+            "link",
+            "|",
+            "preview"
+          ]
         },
         this.configs
       );
