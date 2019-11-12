@@ -5,8 +5,11 @@
     <div v-if="question.content" v-html="marked(question.content)"></div>
     <br />
     <h2>Antworten:</h2>
-    <ul v-for="answer in question.answers" :key="answer._id">
-      <li v-if="answer.content" v-html="marked(answer.content)"></li>
+    <ul class="answer-list" v-for="answer in question.answers" :key="answer._id">
+      <li v-if="answer.content">
+        <div v-html="marked(answer.content)"></div>
+        <div class="timestamp">vor {{answer.createdAt | timeAgo}}</div>
+      </li>
     </ul>
     <br />
     <form name="form" @submit="checkForm">
@@ -74,6 +77,25 @@ export default {
 
 <style lang="stylus">
 @import '~simplemde/dist/simplemde.min.css';
+
+.answer-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    background-color: #f2f3f5;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+  }
+
+  .timestamp {
+    text-align: right;
+    padding-right: 10px;
+  }
+}
 
 .question-view {
   background-color: #fff;
