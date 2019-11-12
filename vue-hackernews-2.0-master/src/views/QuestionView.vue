@@ -2,9 +2,11 @@
   <div class="question-view">
     <h2>{{question.title}}</h2>
 
-    <div>{{question.content}}</div>
+    <div v-if="question.content" v-html="marked(question.content)"></div>
+    <br />
+    <h2>Antworten:</h2>
     <ul v-for="answer in question.answers" :key="answer._id">
-      <li>{{answer.content}}</li>
+      <li v-if="answer.content" v-html="marked(answer.content)"></li>
     </ul>
     <br />
     <form name="form" @submit="checkForm">
@@ -53,14 +55,16 @@ export default {
 
       e.preventDefault();
 
-      axios.post(
-        "http://localhost:9000/api/questions/" +
-          this.$route.params.id +
-          "/answers",
-        {
-          content: this.myAnswer
-        }
-      );
+      axios
+        .post(
+          "http://localhost:9000/api/questions/" +
+            this.$route.params.id +
+            "/answers",
+          {
+            content: this.myAnswer
+          }
+        )
+        .then(res => (this.question = res.data));
 
       //this.$router.push("/");
     }
