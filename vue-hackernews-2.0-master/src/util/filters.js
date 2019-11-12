@@ -39,3 +39,31 @@ function pluralize(time, label) {
     }
     return `${time + label}s`;
 }
+
+function compare(a, b) {
+    if(a.createdAt > b.createdAt) {
+        return -1;
+    }
+    if(a.createdAt < b.createdAt) {
+        return 1;
+    }
+    return 0;
+}
+
+function compareVotes(a, b) {
+    if(a.votes > b.votes) {
+        return -1;
+    }
+    if(a.votes < b.votes) {
+        return 1;
+    }
+    return 0;
+}
+
+export function sortCreatedAt(objs) {
+    return objs.sort(compare);
+}
+
+export function sortVotes(objs) {
+    return objs.sort(compareVotes);
+}

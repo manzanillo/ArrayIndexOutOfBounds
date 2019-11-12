@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { timeAgo } from "../util/filters";
+import { timeAgo, sort } from "../util/filters";
 import axios from "axios";
 
 export default {

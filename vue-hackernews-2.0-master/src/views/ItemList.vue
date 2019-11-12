@@ -17,7 +17,7 @@
 import { watchList } from "../api";
 import Item from "../components/Item.vue";
 import axios from "axios";
-
+import { sortCreatedAt, sortVotes } from "../util/filters";
 export default {
   name: "item-list",
 
@@ -36,9 +36,13 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get("http://localhost:9000/api/questions")
-      .then(result => (this.questions = result.data));
+    axios.get("http://localhost:9000/api/questions").then(result => {
+      if (this.type === "new") {
+        this.questions = sortCreatedAt(result.data);
+      } else {
+        this.questions = sortVotes(result.data);
+      }
+    });
   }
 };
 </script>
