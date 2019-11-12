@@ -12,7 +12,9 @@
       <span class="time">vor {{ question.createdAt | timeAgo }}</span>
       <span v-if="question.type !== 'job'" class="comments-link">
         |
-        {{ question.answers.length }} comments
+        <span v-if="question.answers.length === 0">keine Antwort</span>
+        <span v-if="question.answers.length === 1">1 Antwort</span>
+        <span v-if="question.answers.length > 1">{{ question.answers.length }} Antworten</span>
       </span>
     </span>
     <span class="label" v-if="question.type !== 'story'">{{ question.type }}</span>
