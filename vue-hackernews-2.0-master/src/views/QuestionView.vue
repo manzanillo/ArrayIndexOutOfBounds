@@ -14,7 +14,7 @@
     <br />
     <form name="form" @submit="checkForm">
       <h2>Deine Antwort:</h2>
-      <textarea :highlight="true" v-model="myAnswer" />
+      <simplemde :highlight="true" v-model="myAnswer" />
       <br />
       <input type="submit" class="btn btn-primary" value="Antworten" />
     </form>
@@ -27,9 +27,9 @@ import simplemde from "../components/MarkdownEditor.vue";
 
 export default {
   name: "question-view",
-  // components: {
-  //   simplemde
-  // },
+  components: {
+    simplemde
+  },
   data: function() {
     return {
       myAnswer: "",
@@ -67,7 +67,10 @@ export default {
             content: this.myAnswer
           }
         )
-        .then(res => (this.question = res.data));
+        .then(res => {
+          this.myAnswer = "";
+          this.question = res.data;
+        });
 
       //this.$router.push("/");
     }
