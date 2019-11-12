@@ -3,6 +3,16 @@
     <h2>{{question.title}}</h2>
 
     <div>{{question.content}}</div>
+    <ul v-for="answer in question.answers" :key="answer._id">
+      <li>{{answer.content}}</li>
+    </ul>
+    <br />
+    <form name="form" @submit="checkForm">
+      <h2>Deine Antwort:</h2>
+      <textarea :highlight="true" v-model="myAnswer" />
+      <br />
+      <input type="submit" class="btn btn-primary" value="Antworten" />
+    </form>
   </div>
 </template>
 
@@ -17,6 +27,7 @@ export default {
   // },
   data: function() {
     return {
+      myAnswer: "",
       question: {}
     };
   },
@@ -30,6 +41,29 @@ export default {
         console.log(e);
         return false;
       });
+  },
+  methods: {
+    checkForm: function(e) {
+      this.errors = [];
+      console.log(this.myAnswer);
+      if (this.myAnswer.length === 0) {
+        this.errors.push("Fill in answer.");
+        return false;
+      }
+
+      e.preventDefault();
+
+      axios.post(
+        "http://localhost:9000/api/questions/" +
+          this.$route.params.id +
+          "/answers",
+        {
+          content: this.myAnswer
+        }
+      );
+
+      //this.$router.push("/");
+    }
   }
 };
 </script>
