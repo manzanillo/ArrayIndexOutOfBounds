@@ -38,7 +38,10 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:9000/api/questions/" + this.$route.params.id)
+      .get(
+        "http://ddi-playground.cs.fau.de:9000/api/questions/" +
+          this.$route.params.id
+      )
       .then(res => {
         this.question = res.data;
       })
@@ -60,7 +63,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:9000/api/questions/" +
+          "http://ddi-playground.cs.fau.de:9000/api/questions/" +
             this.$route.params.id +
             "/answers",
           {

@@ -35,13 +35,15 @@ export default {
     };
   },
   mounted() {
-    axios.get("http://localhost:9000/api/questions").then(result => {
-      if (this.type === "new") {
-        this.questions = sortCreatedAt(result.data);
-      } else {
-        this.questions = sortVotes(result.data);
-      }
-    });
+    axios
+      .get("http://ddi-playground.cs.fau.de:9000/api/questions/")
+      .then(result => {
+        if (this.type === "new") {
+          this.questions = sortCreatedAt(result.data);
+        } else {
+          this.questions = sortVotes(result.data);
+        }
+      });
   }
 };
 </script>

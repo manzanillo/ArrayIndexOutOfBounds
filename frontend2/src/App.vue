@@ -1,9 +1,10 @@
 <template>
   <div id="app">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <header class="header">
       <nav class="inner">
         <router-link to="/" exact>
-          <img class="logo" src="~public/logo-48.png" alt="logo" />
+          <img class="logo" src="./assets/logo-48.png" alt="logo" />
         </router-link>
         <router-link to="/top">Hot</router-link>
         <router-link to="/new">New</router-link>

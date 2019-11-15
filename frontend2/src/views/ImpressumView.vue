@@ -4,7 +4,6 @@
       <h1>Impressum</h1>
       <h3>Über das Tool</h3>
       <p>Dieses Tool soll das Prinzip eines Stackoverflows auf Klassenbasis verfügbar machen.</p>
-      <p>Entwickelt wurde es von Stefan Seegerer.</p>
       <h3>Herausgeber</h3>
       <p>
         Professur für Didaktik der Informatik

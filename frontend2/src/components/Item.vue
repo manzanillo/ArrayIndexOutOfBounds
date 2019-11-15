@@ -48,13 +48,19 @@ export default {
   methods: {
     upvote: function(e) {
       axios
-        .put("http://localhost:9000/api/questions/" + this.item._id + "/upvote")
+        .put(
+          "http://ddi-playground.cs.fau.de:9000/api/questions/" +
+            this.item._id +
+            "/upvote"
+        )
         .then(res => (this.question = res.data));
     },
     downvote: function(e) {
       axios
         .delete(
-          "http://localhost:9000/api/questions/" + this.item._id + "/downvote"
+          "http://ddi-playground.cs.fau.de:9000/api/questions/" +
+            this.item._id +
+            "/downvote"
         )
         .then(res => (this.question = res.data));
     }

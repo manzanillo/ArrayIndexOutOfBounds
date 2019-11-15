@@ -44,7 +44,7 @@ export default {
 
       e.preventDefault();
 
-      axios.post("http://localhost:9000/api/questions", {
+      axios.post("http://ddi-playground.cs.fau.de:9000/api/questions/", {
         user: "user",
         title: this.title,
         content: this.content,
