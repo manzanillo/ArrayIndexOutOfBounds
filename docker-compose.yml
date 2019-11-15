@@ -8,8 +8,9 @@ services:
         image: nodejs
         container_name: nodejs
         restart: unless-stopped
-    networks:
-        - app-network
+        port: 9000:9000
+        depends_on:
+            - mongodb
 
     mongodb:
         image: mongo:latest
@@ -21,8 +22,6 @@ services:
             - ./data/db:/data/db
         ports:
             - 27017:27017
-        networks:
-            - app-network
 
     webserver:
         image: nginx:mainline-alpine
@@ -37,8 +36,6 @@ services:
             - certbot-var:/var/lib/letsencrypt
         depends_on:
             - nodejs
-        networks:
-            - app-network
 
     certbot:
         image: certbot/certbot
@@ -60,7 +57,3 @@ volumes:
             type: none
             device: /home/sammy/node_project/views/
             o: bind
-
-networks:
-    app-network:
-        driver: bridge
