@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { watchList } from "../api";
 import Item from "../components/Item.vue";
 import axios from "axios";
 import { sortCreatedAt, sortVotes } from "../util/filters";
