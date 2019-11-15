@@ -8,7 +8,8 @@ services:
         image: nodejs
         container_name: nodejs
         restart: unless-stopped
-        port: 9000:9000
+        ports:
+            - 9000:9000
         depends_on:
             - mongodb
 
@@ -55,5 +56,5 @@ volumes:
         driver: local
         driver_opts:
             type: none
-            device: /home/sammy/node_project/views/
+            device: /home/see/node_project/views/
             o: bind
