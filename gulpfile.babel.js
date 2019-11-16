@@ -20,23 +20,8 @@ import makeWebpackConfig from './webpack.make';
 var plugins = gulpLoadPlugins();
 var config;
 
-const clientPath = 'client';
 const serverPath = 'server';
 const paths = {
-    client: {
-        assets: `${clientPath}/assets/**/*`,
-        images: `${clientPath}/assets/images/**/*`,
-        revManifest: `${clientPath}/assets/rev-manifest.json`,
-        scripts: [
-            `${clientPath}/**/!(*.spec|*.mock).js`
-        ],
-        styles: [`${clientPath}/{app,components}/**/*.scss`],
-        mainStyle: `${clientPath}/app/app.scss`,
-        views: `${clientPath}/{app,components}/**/*.html`,
-        mainView: `${clientPath}/app.html`,
-        test: [`${clientPath}/{app,components}/**/*.{spec,mock}.js`],
-        e2e: ['e2e/**/*.spec.js']
-    },
     server: {
         scripts: [
           `${serverPath}/**/!(*.spec|*.integration).js`,
@@ -93,19 +78,8 @@ function whenServerReady(cb) {
  ********************/
 
 let lintClientScripts = lazypipe()
-    .pipe(plugins.eslint, `${clientPath}/.eslintrc`)
     .pipe(plugins.eslint.format);
 
-const lintClientTestScripts = lazypipe()
-    .pipe(plugins.eslint, {
-        configFile: `${clientPath}/.eslintrc`,
-        envs: [
-            'browser',
-            'es6',
-            'mocha'
-        ]
-    })
-    .pipe(plugins.eslint.format);
 
 let lintServerScripts = lazypipe()
     .pipe(plugins.eslint, `${serverPath}/.eslintrc`)
@@ -190,23 +164,6 @@ gulp.task('inject', cb => {
     runSequence(['inject:scss'], cb);
 });
 
-gulp.task('inject:scss', () => {
-    return gulp.src(paths.client.mainStyle)
-        .pipe(plugins.inject(
-            gulp.src(_.union(paths.client.styles, ['!' + paths.client.mainStyle]), {read: false})
-                .pipe(plugins.sort()),
-            {
-                transform: (filepath) => {
-                    let newPath = filepath
-                        .replace(`/${clientPath}/app/`, '')
-                        .replace(`/${clientPath}/components/`, '../components/')
-                        .replace(/_(.*).scss/, (match, p1, offset, string) => p1)
-                        .replace('.scss', '');
-                    return `@import '${newPath}';`;
-                }
-            }))
-        .pipe(gulp.dest(`${clientPath}/app`));
-});
 
 function webpackCompile(options, cb) {
     let compiler = webpack(makeWebpackConfig(options));

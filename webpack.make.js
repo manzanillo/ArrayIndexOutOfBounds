@@ -26,9 +26,7 @@ module.exports = function makeWebpackConfig(options) {
      */
     const config = {};
 
-    config.mode = BUILD
-        ? 'production'
-        : 'development';
+    config.mode = BUILD ? 'production' : 'development';
 
     /**
      * Entry
@@ -40,9 +38,7 @@ module.exports = function makeWebpackConfig(options) {
         config.entry = {
             app: './client/app/app.js',
             polyfills: './client/app/polyfills.js',
-            vendor: [
-                'lodash'
-            ]
+            vendor: ['lodash']
         };
     }
 
@@ -76,22 +72,13 @@ module.exports = function makeWebpackConfig(options) {
 
     config.resolve = {
         modules: ['node_modules'],
-        extensions: ['.js', '.ts'],
-        alias: {
-            primus: path.resolve(__dirname, 'client/components/socket/primus.js'),
-        }
+        extensions: ['.js', '.ts']
     };
 
     if(TEST) {
         config.resolve = {
-            modules: [
-                'node_modules'
-            ],
-            extensions: ['.js', '.ts'],
-            alias: {
-                // for some reason the primus client and webpack don't get along in test
-                primus: path.resolve(__dirname, 'client/components/socket/primus.mock.js'),
-            }
+            modules: ['node_modules'],
+            extensions: ['.js', '.ts']
         };
     }
 
@@ -117,116 +104,95 @@ module.exports = function makeWebpackConfig(options) {
 
     // Initialize module
     config.module = {
-        rules: [{
-            // JS LOADER
-            // Reference: https://github.com/babel/babel-loader
-            // Transpile .js files using babel-loader
-            // Compiles ES6 and ES7 into ES5 code
-            test: /\.js$/,
-            use: [{
-                loader: 'babel-loader',
-                options: {
-                    presets: [
-                        ['babel-preset-env', {
-                            // debug: true,
-                            targets: {
-                                browsers: ['last 2 versions', 'not dead'],
-                            },
-                            debug: true,
-                            modules: false,
-                        }]
-                    ],
-                    plugins: [
-                        'angular2-annotations',
-                        'transform-runtime',
-                        'transform-decorators-legacy',
-                        'transform-class-properties',
-                        'transform-export-extensions',
-                    ].concat(TEST ? ['istanbul'] : []),
-                }
-            }].concat(DEV ? '@angularclass/hmr-loader' : []),
-            include: [
-                path.resolve(__dirname, 'client/'),
-                path.resolve(__dirname, 'server/config/environment/shared.js'),
-                path.resolve(__dirname, 'node_modules/lodash-es/'),
-            ]
-        }, {
-            // TS LOADER
-            // Reference: https://github.com/s-panferov/awesome-typescript-loader
-            // Transpile .ts files using awesome-typescript-loader
-            test: /\.ts$/,
-            use: [{
-                loader: 'awesome-typescript-loader',
-
-            }].concat(DEV ? '@angularclass/hmr-loader' : []),
-            include: [
-                path.resolve(__dirname, 'client/')
-            ]
-        }, {
-            // ASSET LOADER
-            // Reference: https://github.com/webpack/file-loader
-            // Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
-            // Rename the file using the asset hash
-            // Pass along the updated reference to your code
-            // You can add here any file extension you want to get copied to your output
-            test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)([\?]?.*)$/,
-            use: 'file-loader'
-        }, {
-
-            // HTML LOADER
-            // Reference: https://github.com/webpack/raw-loader
-            // Allow loading html through js
-            test: /\.html$/,
-            use: 'raw-loader'
-        }, {
-            // CSS LOADER
-            // Reference: https://github.com/webpack/css-loader
-            // Allow loading css through js
-            //
-            // Reference: https://github.com/postcss/postcss-loader
-            // Postprocess your css with PostCSS plugins
-            test: /\.css$/,
-            use: [
-                DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-                'css-loader',
-                'postcss-loader',
-            ],
-            include: [
-                path.resolve(__dirname, 'node_modules/bootstrap/dist/css/*.css'),
-                path.resolve(__dirname, 'client/app/app.css')
-            ]
-        }, {
-            // SASS LOADER
-            // Reference: https://github.com/jtangelder/sass-loader
-            test: /\.(scss|sass)$/,
-            use: [
-                DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-                'css-loader?sourceMap',
-                'postcss-loader',
-                'sass-loader',
-            ],
-            include: [
-                path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
-                path.resolve(__dirname, 'client/app/app.scss')
-            ]
-        }, {
-            // SASS LOADER
-            // Reference: https://github.com/jtangelder/sass-loader
-            test: /\.(scss|sass)$/,
-            use: [
-                'to-string-loader?sourceMap',
-                'css-loader?sourceMap',
-                'postcss-loader',
-                'sass-loader?sourceMap',
-            ],
-            include: [
-                path.resolve(__dirname, 'client')
-            ],
-            exclude: [/app\.scss$/]
-        }]
+        rules: [
+            {
+                // JS LOADER
+                // Reference: https://github.com/babel/babel-loader
+                // Transpile .js files using babel-loader
+                // Compiles ES6 and ES7 into ES5 code
+                test: /\.js$/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                [
+                                    'babel-preset-env',
+                                    {
+                                        // debug: true,
+                                        targets: {
+                                            browsers: ['last 2 versions', 'not dead']
+                                        },
+                                        debug: true,
+                                        modules: false
+                                    }
+                                ]
+                            ],
+                            plugins: ['angular2-annotations', 'transform-runtime', 'transform-decorators-legacy', 'transform-class-properties', 'transform-export-extensions'].concat(
+                                TEST ? ['istanbul'] : []
+                            )
+                        }
+                    }
+                ].concat(DEV ? '@angularclass/hmr-loader' : []),
+                include: [path.resolve(__dirname, 'client/'), path.resolve(__dirname, 'server/config/environment/shared.js'), path.resolve(__dirname, 'node_modules/lodash-es/')]
+            },
+            {
+                // TS LOADER
+                // Reference: https://github.com/s-panferov/awesome-typescript-loader
+                // Transpile .ts files using awesome-typescript-loader
+                test: /\.ts$/,
+                use: [
+                    {
+                        loader: 'awesome-typescript-loader'
+                    }
+                ].concat(DEV ? '@angularclass/hmr-loader' : []),
+                include: [path.resolve(__dirname, 'client/')]
+            },
+            {
+                // ASSET LOADER
+                // Reference: https://github.com/webpack/file-loader
+                // Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
+                // Rename the file using the asset hash
+                // Pass along the updated reference to your code
+                // You can add here any file extension you want to get copied to your output
+                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)([\?]?.*)$/,
+                use: 'file-loader'
+            },
+            {
+                // HTML LOADER
+                // Reference: https://github.com/webpack/raw-loader
+                // Allow loading html through js
+                test: /\.html$/,
+                use: 'raw-loader'
+            },
+            {
+                // CSS LOADER
+                // Reference: https://github.com/webpack/css-loader
+                // Allow loading css through js
+                //
+                // Reference: https://github.com/postcss/postcss-loader
+                // Postprocess your css with PostCSS plugins
+                test: /\.css$/,
+                use: [DEV ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+                include: [path.resolve(__dirname, 'node_modules/bootstrap/dist/css/*.css'), path.resolve(__dirname, 'client/app/app.css')]
+            },
+            {
+                // SASS LOADER
+                // Reference: https://github.com/jtangelder/sass-loader
+                test: /\.(scss|sass)$/,
+                use: [DEV ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader?sourceMap', 'postcss-loader', 'sass-loader'],
+                include: [path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'), path.resolve(__dirname, 'client/app/app.scss')]
+            },
+            {
+                // SASS LOADER
+                // Reference: https://github.com/jtangelder/sass-loader
+                test: /\.(scss|sass)$/,
+                use: ['to-string-loader?sourceMap', 'css-loader?sourceMap', 'postcss-loader', 'sass-loader?sourceMap'],
+                include: [path.resolve(__dirname, 'client')],
+                exclude: [/app\.scss$/]
+            }
+        ]
     };
-
-
 
     /**
      * Plugins
@@ -235,10 +201,7 @@ module.exports = function makeWebpackConfig(options) {
      */
     config.plugins = [
         // Hides the 'the request of a dependency is an expression' warnings
-        new webpack.ContextReplacementPlugin(
-            /angular(\\|\/)core/,
-            path.resolve(__dirname, '../src')
-        ),
+        new webpack.ContextReplacementPlugin(/angular(\\|\/)core/, path.resolve(__dirname, '../src')),
 
         new webpack.LoaderOptionsPlugin({
             options: {
@@ -250,9 +213,8 @@ module.exports = function makeWebpackConfig(options) {
                 sourceComments: false
             },
             babel: {
-
                 comments: false
-            },
+            }
         })
     ];
 
@@ -262,22 +224,8 @@ module.exports = function makeWebpackConfig(options) {
             // https://github.com/webpack-contrib/mini-css-extract-plugin
             new MiniCssExtractPlugin({
                 filename: '[name].[hash].css',
-                chunkFilename: '[id].[hash].css',
-            }),
-        );
-    }
-
-    // Skip rendering app.html in test mode
-    // Reference: https://github.com/ampedandwired/html-webpack-plugin
-    // Render app.html
-    if(!TEST) {
-        config.plugins.push(
-            new HtmlWebpackPlugin({
-                template: 'client/app.template.html',
-                filename: '../client/app.html',
-                alwaysWriteToDisk: true,
-            }),
-            new HtmlWebpackHarddiskPlugin(),
+                chunkFilename: '[id].[hash].css'
+            })
         );
     }
 
@@ -290,21 +238,19 @@ module.exports = function makeWebpackConfig(options) {
     localEnv = _.mapValues(localEnv, value => `"${value}"`);
     localEnv = _.mapKeys(localEnv, (value, key) => `process.env.${key}`);
 
-    let env = _.merge({
-        'process.env.NODE_ENV': DEV ? '"development"'
-            : BUILD ? '"production"'
-            : TEST ? '"test"'
-            : '"development"'
-    }, localEnv);
+    let env = _.merge(
+        {
+            'process.env.NODE_ENV': DEV ? '"development"' : BUILD ? '"production"' : TEST ? '"test"' : '"development"'
+        },
+        localEnv
+    );
 
     // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
     // Define free global variables
     config.plugins.push(new webpack.DefinePlugin(env));
 
     if(DEV) {
-        config.plugins.push(
-            new webpack.HotModuleReplacementPlugin(),
-        );
+        config.plugins.push(new webpack.HotModuleReplacementPlugin());
     }
 
     config.cache = DEV;
@@ -318,8 +264,8 @@ module.exports = function makeWebpackConfig(options) {
                         test: /\.css$/,
                         chunks: 'all',
                         enforce: true
-                    },
-                },
+                    }
+                }
             },
             minimizer: [
                 new UglifyJsPlugin({
@@ -327,8 +273,8 @@ module.exports = function makeWebpackConfig(options) {
                     parallel: true,
                     sourceMap: true // set to true if you want JS source maps
                 }),
-                new OptimizeCssAssetsPlugin({}),
-            ],
+                new OptimizeCssAssetsPlugin({})
+            ]
         };
     }
 
@@ -350,27 +296,19 @@ module.exports = function makeWebpackConfig(options) {
         proxy: {
             '/api': {
                 target: 'http://localhost:9000',
-                secure: false,
+                secure: false
             },
             '/auth': {
                 target: 'http://localhost:9000',
-                secure: false,
-            },
-            '/primus': {
-                target: 'http://localhost:9000',
-                secure: false,
-                ws: true,
-            },
+                secure: false
+            }
         },
         stats: {
             modules: false,
             cached: false,
             colors: true,
-            chunks: false,
-        },
-        historyApiFallback: {
-            index: 'app.html'
-        },
+            chunks: false
+        }
     };
 
     config.node = {
@@ -378,7 +316,7 @@ module.exports = function makeWebpackConfig(options) {
         process: true,
         crypto: false,
         clearImmediate: false,
-        setImmediate: false,
+        setImmediate: false
     };
 
     return config;

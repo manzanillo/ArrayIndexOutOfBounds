@@ -31,10 +31,10 @@ services:
         ports:
             - "80:80"
         volumes:
-            - web-root:/var/www/html
+            - ./webroot:/var/www/html
             - ./nginx-conf:/etc/nginx/conf.d
-            - certbot-etc:/etc/letsencrypt
-            - certbot-var:/var/lib/letsencrypt
+            - ./cert/certbotetc:/etc/letsencrypt
+            - ./cert/certbotvar:/var/lib/letsencrypt
         depends_on:
             - nodejs
 
@@ -42,19 +42,9 @@ services:
         image: certbot/certbot
         container_name: certbot
         volumes:
-            - certbot-etc:/etc/letsencrypt
-            - certbot-var:/var/lib/letsencrypt
-            - web-root:/var/www/html
+            - ./cert/certbotetc:/etc/letsencrypt
+            - ./cert/certbotvar:/var/lib/letsencrypt
+            - ./webroot:/var/www/html
         depends_on:
             - webserver
         command: certonly --webroot --webroot-path=/var/www/html --email stefan.seegererm@fau.de --agree-tos --no-eff-email --staging -d ddi-playground.cs.fau.de
-
-volumes:
-    certbot-etc:
-    certbot-var:
-    web-root:
-        driver: local
-        driver_opts:
-            type: none
-            device: /home/see/node_project/views/
-            o: bind
