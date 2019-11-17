@@ -32,8 +32,6 @@
         "mongoose": "^5.1.5",
         "bluebird": "^3.3.3",
         "connect-mongo": "^2.0.1",
-        "primus": "^7.0.1",
-        "primus-emit": "^1.0.0",
         "uws": "10.148.1",
         "serve-favicon": "^2.3.0"
     },
