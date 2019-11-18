@@ -1,50 +1,56 @@
 <template>
-  <div class="news-view">
-    <div class="btn-row">
-      <router-link class="btn" to="/ask" tag="button">Ask Question</router-link>
+    <div class="news-view">
+        <div class="btn-row">
+            <router-link class="btn" to="/ask" tag="button"
+                >Frage stellen</router-link
+            >
+        </div>
+        <transition :name="transition">
+            <div class="news-list">
+                <transition-group tag="ul" name="item">
+                    <item
+                        v-for="item in questions"
+                        :key="item._id"
+                        :item="item"
+                    ></item>
+                </transition-group>
+            </div>
+        </transition>
     </div>
-    <transition :name="transition">
-      <div class="news-list">
-        <transition-group tag="ul" name="item">
-          <item v-for="item in questions" :key="item._id" :item="item"></item>
-        </transition-group>
-      </div>
-    </transition>
-  </div>
 </template>
 
 <script>
-import Item from "../components/Item.vue";
-import axios from "axios";
-import { sortCreatedAt, sortVotes } from "../util/filters";
-import apiPath from "../util/api";
+import Item from "../components/Item.vue"
+import axios from "axios"
+import { sortCreatedAt, sortVotes } from "../util/filters"
+import apiPath from "../util/api"
 export default {
-  name: "item-list",
+    name: "item-list",
 
-  components: {
-    Item
-  },
+    components: {
+        Item
+    },
 
-  props: {
-    type: String
-  },
+    props: {
+        type: String
+    },
 
-  data() {
-    return {
-      transition: "slide-right",
-      questions: []
-    };
-  },
-  mounted() {
-    axios.get(apiPath).then(result => {
-      if (this.type === "new") {
-        this.questions = sortCreatedAt(result.data);
-      } else {
-        this.questions = sortVotes(result.data);
-      }
-    });
-  }
-};
+    data() {
+        return {
+            transition: "slide-right",
+            questions: []
+        }
+    },
+    mounted() {
+        axios.get(apiPath).then(result => {
+            if (this.type === "new") {
+                this.questions = sortCreatedAt(result.data)
+            } else {
+                this.questions = sortVotes(result.data)
+            }
+        })
+    }
+}
 </script>
 
 <style lang="stylus">

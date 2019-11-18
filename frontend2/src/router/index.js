@@ -23,7 +23,8 @@ export function createRouter() {
             { path: "/question/:id", component: QuestionView },
             { path: "/ask", component: CreateQuestionView },
             { path: "/impressum", component: ImpressumView },
-            { path: "/", redirect: "/top" }
+            { path: "/", redirect: "/top" },
+            { path: "*", redirect: "/top" }
         ]
     })
 }

@@ -7,6 +7,10 @@
       <h2>Frage:</h2>
       <simplemde :highlight="true" v-model="content" />
       <br />
+      <label for="user">Name</label>
+      <input name="user" type="text" class="form-control" v-model="user" />
+
+      <div style="margin-top: 0.83em" />
       <input type="submit" class="btn btn-primary" value="Frage stellen" />
     </form>
   </div>
@@ -15,21 +19,22 @@
 <script>
 import axios from "axios";
 import simplemde from "../components/MarkdownEditor.vue";
-import apiPath from "../util/api"
+import apiPath from "../util/api";
 export default {
   name: "user-view",
   components: {
     simplemde
   },
-  computed: {
+  /*  computed: {
     user() {
       return this.$store.state.users[this.$route.params.id];
     }
-  },
+  },*/
   data: function() {
     return {
       title: "",
       content: "",
+      user: "Anonym",
       errors: []
     };
   },
@@ -45,7 +50,7 @@ export default {
       e.preventDefault();
 
       axios.post(apiPath, {
-        user: "user",
+        user: this.user,
         title: this.title,
         content: this.content,
         class: "Klasse"
