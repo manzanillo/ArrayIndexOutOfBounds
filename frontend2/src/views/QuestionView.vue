@@ -24,6 +24,7 @@
 <script>
 import axios from "axios";
 import simplemde from "../components/MarkdownEditor.vue";
+import apiPath from "../util/api";
 
 export default {
   name: "question-view",
@@ -38,10 +39,7 @@ export default {
   },
   mounted() {
     axios
-      .get(
-        "http://ddi-playground.cs.fau.de:9000/api/questions/" +
-          this.$route.params.id
-      )
+      .get(apiPath + this.$route.params.id)
       .then(res => {
         this.question = res.data;
       })
@@ -62,14 +60,9 @@ export default {
       e.preventDefault();
 
       axios
-        .post(
-          "http://ddi-playground.cs.fau.de:9000/api/questions/" +
-            this.$route.params.id +
-            "/answers",
-          {
-            content: this.myAnswer
-          }
-        )
+        .post(apiPath + this.$route.params.id + "/answers", {
+          content: this.myAnswer
+        })
         .then(res => {
           this.myAnswer = "";
           this.question = res.data;

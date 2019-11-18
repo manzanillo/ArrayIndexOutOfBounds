@@ -32,6 +32,7 @@
 <script>
 import { timeAgo, sort } from "../util/filters";
 import axios from "axios";
+import apiPath from "../util/api";
 
 export default {
   name: "news-item",
@@ -48,20 +49,12 @@ export default {
   methods: {
     upvote: function(e) {
       axios
-        .put(
-          "http://ddi-playground.cs.fau.de:9000/api/questions/" +
-            this.item._id +
-            "/upvote"
-        )
+        .put(apiPath + this.item._id + "/upvote")
         .then(res => (this.question = res.data));
     },
     downvote: function(e) {
       axios
-        .delete(
-          "http://ddi-playground.cs.fau.de:9000/api/questions/" +
-            this.item._id +
-            "/downvote"
-        )
+        .delete(apiPath + this.item._id + "/downvote")
         .then(res => (this.question = res.data));
     }
   }

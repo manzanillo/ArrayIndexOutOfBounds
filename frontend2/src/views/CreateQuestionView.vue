@@ -15,7 +15,7 @@
 <script>
 import axios from "axios";
 import simplemde from "../components/MarkdownEditor.vue";
-
+import apiPath from "../util/api"
 export default {
   name: "user-view",
   components: {
@@ -44,7 +44,7 @@ export default {
 
       e.preventDefault();
 
-      axios.post("http://ddi-playground.cs.fau.de:9000/api/questions/", {
+      axios.post(apiPath, {
         user: "user",
         title: this.title,
         content: this.content,
