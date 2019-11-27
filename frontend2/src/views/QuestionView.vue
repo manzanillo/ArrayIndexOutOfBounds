@@ -1,6 +1,9 @@
 <template>
   <div class="question-view">
-    <h2>{{question.title}}</h2>
+    <h2>
+      {{question.title}}
+      <span class="host">{{ " " }}({{ question.user }})</span>
+    </h2>
 
     <div v-if="question.content" v-html="marked(question.content)"></div>
     <br />
@@ -8,13 +11,24 @@
     <ul class="answer-list" v-for="answer in question.answers" :key="answer._id">
       <li v-if="answer.content">
         <div v-html="marked(answer.content)"></div>
-        <div class="timestamp">vor {{answer.createdAt | timeAgo}}</div>
+        <div class="timestamp">
+          <span class="host">
+            <span v-if="answer.user && answer.user.length > 0">{{ answer.user }}</span>
+            <span v-else>Anonym</span>,
+          </span>
+          vor {{answer.createdAt | formatTime}}
+        </div>
       </li>
     </ul>
     <br />
     <form name="form" @submit="checkForm">
       <h2>Deine Antwort:</h2>
       <simplemde :highlight="true" v-model="myAnswer" />
+      <br />
+      <label for="user">Name</label>
+      <input name="user" type="text" class="form-control" v-model="user" />
+
+      <br />
       <br />
       <input type="submit" class="btn btn-primary" value="Antworten" />
     </form>
@@ -25,6 +39,7 @@
 import axios from "axios";
 import simplemde from "../components/MarkdownEditor.vue";
 import apiPath from "../util/api";
+import { timeAgo } from "../util/filters";
 
 export default {
   name: "question-view",
@@ -34,6 +49,7 @@ export default {
   data: function() {
     return {
       myAnswer: "",
+      user: "Anonym",
       question: {}
     };
   },
@@ -48,6 +64,11 @@ export default {
         return false;
       });
   },
+  filters: {
+    formatTime: function(e) {
+      return timeAgo(e);
+    }
+  },
   methods: {
     checkForm: function(e) {
       this.errors = [];
@@ -61,7 +82,8 @@ export default {
 
       axios
         .post(apiPath + this.$route.params.id + "/answers", {
-          content: this.myAnswer
+          content: this.myAnswer,
+          user: this.user
         })
         .then(res => {
           this.myAnswer = "";
